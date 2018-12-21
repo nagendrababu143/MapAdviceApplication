@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".MapsActivity">
+
+    <include android:id="@+id/mapsbar"
+        layout="@layout/bar"/>
+<FrameLayout
+    android:layout_below="@+id/mapsbar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <fragment
+        android:layout_gravity="top|center"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/mapsbar"/>
+
+
+    <!--sample floating button
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        app:rippleColor="@color/colorPrimary"
+        android:src="@drawable/baby"
+        app:elevation="2dp"
+        app:fabSize="mini"
+        android:focusable="true"
+
+
+
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@id/normal_plus"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+
+
+
+        />-->
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:id="@+id/floatparent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        fab:fab_addButtonColorNormal="@color/colorPrimary"
+        fab:fab_addButtonColorPressed="@color/colorText"
+        fab:fab_addButtonPlusIconColor="@color/colorText"
+        fab:fab_addButtonSize="mini"
+        fab:fab_labelStyle="@style/menu_labels_style"
+        fab:fab_labelsPosition="left">
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatchild2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/colorPrimary"
+            fab:fab_title="Notifications"
+            fab:fab_size="mini"
+            android:src="@drawable/notification"
+            fab:fab_colorPressed="@color/colorAccent"/>
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatadminchat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/colorPrimary"
+            fab:fab_size="mini"
+            android:src="@drawable/admin"
+            fab:fab_title="Admin chat"
+            fab:fab_colorPressed="@color/colorAccent"/>
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+</FrameLayout>
+
+
+</RelativeLayout>

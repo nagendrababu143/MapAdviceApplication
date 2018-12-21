@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "430482989835",
+    "firebase_url": "https://mapadviceapplication.firebaseio.com",
+    "project_id": "mapadviceapplication",
+    "storage_bucket": "mapadviceapplication.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:430482989835:android:f4b888d727c3f1be",
+        "android_client_info": {
+          "package_name": "android.pronixits.com.mapadviceapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "430482989835-1aa1mo47980p3o5jiu8b7os71cmfdm5m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "android.pronixits.com.mapadviceapplication",
+            "certificate_hash": "e76657ca881b3d88d35cdbd88b951c592f4b0e5a"
+          }
+        },
+        {
+          "client_id": "430482989835-uueujam6it65ev7ee3cj9vbon4k835ad.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaJlUD3-r41vPJgsuJeod0J1WYP03Xaso"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "430482989835-uueujam6it65ev7ee3cj9vbon4k835ad.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
