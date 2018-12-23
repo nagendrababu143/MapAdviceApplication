@@ -17,12 +17,14 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -62,6 +64,27 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        FloatingActionButton fabadmin = (FloatingActionButton) findViewById(R.id.floatadminchat);
+        FloatingActionButton fabnotify = (FloatingActionButton) findViewById(R.id.floatnotification);
+
+        fabadmin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Toast.makeText(MapsActivity.this, "admin floating button clicke", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        fabnotify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Toast.makeText(MapsActivity.this, "admin floating button clicke", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
 
 
     }
