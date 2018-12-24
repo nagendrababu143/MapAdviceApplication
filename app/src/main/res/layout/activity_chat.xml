@@ -32,14 +32,14 @@
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview"
+    <ListView
+        android:id="@+id/l_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/chatappbar"
         android:layout_above="@+id/message_layout">
 
-    </android.support.v7.widget.RecyclerView>
+    </ListView>
 
     <RelativeLayout
         android:layout_width="match_parent"
