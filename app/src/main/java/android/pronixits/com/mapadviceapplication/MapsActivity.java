@@ -72,7 +72,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(MapsActivity.this, "admin floating button clicke", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MapsActivity.this, "admin floating button clicke", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MapsActivity.this,ChatActivity.class));
             }
         });
 
