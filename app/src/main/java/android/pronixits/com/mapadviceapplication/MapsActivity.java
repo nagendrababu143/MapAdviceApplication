@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Toast;
 
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -39,6 +40,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     Location mLastLocation;
     Marker mCurrLocationMarker;
     GoogleApiClient mGoogleApiClient;
+    FloatingActionButton floatingActionButtonadmin,floatingActionButtonnotify;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,22 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         getSupportActionBar().setTitle("Map Advice");
 
 
+        floatingActionButtonadmin = (FloatingActionButton)findViewById(R.id.floatadminchat);
+        floatingActionButtonnotify = (FloatingActionButton)findViewById(R.id.floatnotification);
+
+        floatingActionButtonadmin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MapsActivity.this,ChatActivity.class));
+            }
+        });
+
+        floatingActionButtonnotify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MapsActivity.this,Notification.class));
+            }
+        });
 
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.

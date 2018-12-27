@@ -1,19 +1,24 @@
 package android.pronixits.com.mapadviceapplication.models;
 
+
+
+
 public class Message {
 
     private String sender;
     private String receiver;
     private String message;
+    private String date;
 
 
     public Message() {
     }
 
-    public Message(String sender, String receiver, String message) {
+    public Message(String sender, String receiver, String message, String date) {
         this.sender = sender;
         this.receiver = receiver;
         this.message = message;
+        this.date = date;
     }
 
     public String getSender() {
@@ -38,5 +43,13 @@ public class Message {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }
