@@ -4,9 +4,11 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Path;
 import android.location.Location;
 import android.location.LocationListener;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -16,11 +18,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 
+import com.akexorcist.googledirection.DirectionCallback;
+import com.akexorcist.googledirection.constant.AvoidType;
+import com.akexorcist.googledirection.model.Direction;
+import com.akexorcist.googledirection.model.Route;
+import com.akexorcist.googledirection.util.DirectionConverter;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -28,9 +40,13 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.akexorcist.googledirection.GoogleDirection;
+
+import java.util.ArrayList;
 
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -38,9 +54,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleMap mMap;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     Location mLastLocation;
-    Marker mCurrLocationMarker;
+    Marker mCurrLocationMarker,sourcemarker;
     GoogleApiClient mGoogleApiClient;
     FloatingActionButton floatingActionButtonadmin,floatingActionButtonnotify;
+    PlaceAutocompleteFragment autocompleteFragmentsource,autocompleteFragmentdestination;
+    LatLng source,destination;
+    Button directions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +71,44 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Map Advice");
 
+
+        directions = (Button)findViewById(R.id.directions_btn);
+        /*directions.setVisibility(View.INVISIBLE);*/
+
+        autocompleteFragmentsource = (PlaceAutocompleteFragment)getFragmentManager().findFragmentById(R.id.autocompletesource);
+        autocompleteFragmentdestination = (PlaceAutocompleteFragment)getFragmentManager().findFragmentById(R.id.autocompletedestination);
+
+        autocompleteFragmentsource.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                source = place.getLatLng();
+
+                /*if(sourcemarker!=null)
+                {
+                    sourcemarker.remove();
+                }
+
+                sourcemarker = mMap.addMarker(new MarkerOptions().position(source).title(place.getName().toString()));
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(12));*/
+            }
+
+            @Override
+            public void onError(Status status) {
+                Toast.makeText(MapsActivity.this, status.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        autocompleteFragmentdestination.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                destination = place.getLatLng();
+            }
+
+            @Override
+            public void onError(Status status) {
+                Toast.makeText(MapsActivity.this, status.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         floatingActionButtonadmin = (FloatingActionButton)findViewById(R.id.floatadminchat);
         floatingActionButtonnotify = (FloatingActionButton)findViewById(R.id.floatnotification);
@@ -75,8 +132,69 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+
+        directions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                directionsButtonFun();
+
+            }
+        });
     }
 
+    private void directionsButtonFun() {
+        if(source!=null && destination!=null)
+        {
+            //directions.setVisibility(View.VISIBLE);
+            GoogleDirection.withServerKey("AIzaSyD446LM7yF7NVL5h680d6balDtZSRSgNt8")
+                    .from(source)
+                    .to(destination)
+                    .avoid(AvoidType.FERRIES)
+                    .avoid(AvoidType.HIGHWAYS)
+                    .execute(new DirectionCallback() {
+
+                        @Override
+                        public void onDirectionSuccess(Direction direction, String rawBody) {
+                            if (direction.isOK()) {
+                                Route route = direction.getRouteList().get(0);
+                                mMap.addMarker(new MarkerOptions().position(source));
+                                mMap.addMarker(new MarkerOptions().position(destination));
+
+                                ArrayList<LatLng> directionPositionList = route.getLegList().get(0).getDirectionPoint();
+                                mMap.addPolyline(DirectionConverter.createPolyline(MapsActivity.this, directionPositionList, 5, Color.RED));
+                                setCameraWithCoordinationBounds(route);
+
+                                //directions.setVisibility(View.GONE);
+                            } else {
+                                //Snackbar.make(btnRequestDirection, direction.getStatus(), Snackbar.LENGTH_SHORT).show();
+                                Toast.makeText(MapsActivity.this, direction.getStatus(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onDirectionFailure(Throwable t) {
+                            Toast.makeText(MapsActivity.this, t.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+        }
+        else
+        {
+            Toast.makeText(MapsActivity.this, "source or destination are missing", Toast.LENGTH_SHORT).show();
+        }
+
+
+    }
+
+    private void setCameraWithCoordinationBounds(Route route) {
+        LatLng southwest = route.getBound().getSouthwestCoordination().getCoordination();
+        LatLng northeast = route.getBound().getNortheastCoordination().getCoordination();
+        LatLngBounds bounds = new LatLngBounds(southwest, northeast);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
+    }
 
     /**
      * Manipulates the map once available.
@@ -108,7 +226,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             new GoogleMap.OnMyLocationButtonClickListener() {
                 @Override
                 public boolean onMyLocationButtonClick() {
-                    mMap.setMinZoomPreference(15);
+                    mMap.setMinZoomPreference(5);
                     return false;
                 }
             };
@@ -118,7 +236,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 @Override
                 public void onMyLocationClick(@NonNull Location location) {
 
-                    mMap.setMinZoomPreference(12);
+                    mMap.setMinZoomPreference(5);
 
                     CircleOptions circleOptions = new CircleOptions();
                     circleOptions.center(new LatLng(location.getLatitude(),
