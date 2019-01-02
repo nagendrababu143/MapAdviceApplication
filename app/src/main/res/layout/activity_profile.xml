@@ -38,7 +38,7 @@
             android:layout_marginRight="15dp"
             android:layout_marginLeft="12dp">
 
-            <TextView
+            <!--<TextView
                 android:gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -53,8 +53,10 @@
                 android:fontFamily="sans-serif-light"
                 android:text="Sofware Engineer"
                 android:gravity="center_horizontal"
-                android:textSize="12sp"/>
+                android:textSize="12sp"/>-->
         </LinearLayout>
+
+
     </LinearLayout>
 
 </RelativeLayout>

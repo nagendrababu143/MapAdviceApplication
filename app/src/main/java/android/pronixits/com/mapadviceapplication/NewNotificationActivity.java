@@ -117,7 +117,7 @@ public class NewNotificationActivity extends AppCompatActivity {
         trafficUpdate.setDate(mydate.toString());
         trafficUpdate.setUserid(userid);
         trafficUpdate.setLatitude(latitude);
-        trafficUpdate.setLatitude(longitude);
+        trafficUpdate.setLongitude(longitude);
         trafficUpdate.setTraffic_reason(trafficreason);
         trafficUpdate.setPlacename(placename);
 

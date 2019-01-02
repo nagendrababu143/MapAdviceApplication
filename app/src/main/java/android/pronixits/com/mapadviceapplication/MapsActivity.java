@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.graphics.Path;
 import android.location.Location;
 import android.location.LocationListener;
+import android.pronixits.com.mapadviceapplication.adapter.TrafficPlacesAdapter;
+import android.pronixits.com.mapadviceapplication.models.TrafficUpdate;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -45,8 +47,14 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.akexorcist.googledirection.GoogleDirection;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -60,6 +68,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     PlaceAutocompleteFragment autocompleteFragmentsource,autocompleteFragmentdestination;
     LatLng source,destination;
     Button directions;
+    List<TrafficUpdate> trafficUpdateListpoints = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +152,58 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             }
         });
+
+
+    }
+
+    private void showmarkers() {
+        for(int i = 0 ; i < trafficUpdateListpoints.size() ; i++) {
+
+            createMarker(trafficUpdateListpoints.get(i).getLatitude(), trafficUpdateListpoints.get(i).getLongitude(), trafficUpdateListpoints.get(i).getTraffic_reason());
+        }
+    }
+    protected Marker createMarker(double latitude, double longitude, String title) {
+
+        return mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(latitude, longitude))
+                .anchor(0.5f, 0.5f)
+                .title(title));
+    }
+    private void onOpenNotificationFun() {
+        DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference("Traffic");
+
+        reference1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                trafficUpdateListpoints.clear();
+                for (DataSnapshot dataSnapshot2 : dataSnapshot.getChildren())
+                {
+                    TrafficUpdate trafficUpdate = dataSnapshot2.getValue(TrafficUpdate.class);
+
+                    trafficUpdate.getTraffic_reason();
+                    //trafficUpdate.getPlacename();
+                    trafficUpdate.getLatitude();
+                    trafficUpdate.getLongitude();
+                    //trafficUpdate.getDate();
+                    //trafficUpdate.getUserid();
+
+                    trafficUpdateListpoints.add(trafficUpdate);
+
+                }
+                showmarkers();
+
+
+                //TrafficPlacesAdapter trafficPlacesAdapter = new TrafficPlacesAdapter(getApplicationContext(),trafficUpdateListpoints);
+                //listView.setAdapter(trafficPlacesAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Intent intent = new Intent(MapsActivity.this,MapsActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     private void directionsButtonFun() {
@@ -220,6 +281,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.setMinZoomPreference(11);
+        onOpenNotificationFun();
     }
 
     private GoogleMap.OnMyLocationButtonClickListener onMyLocationButtonClickListener =
