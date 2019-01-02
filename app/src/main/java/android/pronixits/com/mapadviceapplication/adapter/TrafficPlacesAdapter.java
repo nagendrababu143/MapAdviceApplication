@@ -1,6 +1,7 @@
 package android.pronixits.com.mapadviceapplication.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.pronixits.com.mapadviceapplication.R;
 import android.pronixits.com.mapadviceapplication.models.Message;
 import android.pronixits.com.mapadviceapplication.models.TrafficUpdate;
@@ -62,7 +63,7 @@ public class TrafficPlacesAdapter extends BaseAdapter{
         /*cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(, "", Toast.LENGTH_SHORT).show();
+                //Intent intent = new Intent(this,)
             }
         });*/
 
