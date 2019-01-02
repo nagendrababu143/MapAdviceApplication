@@ -51,7 +51,8 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".AboutActivity" />
         <activity android:name=".ChatActivity" />
-        <activity android:name=".Notification"></activity>
+        <activity android:name=".Notification" />
+        <activity android:name=".NewNotificationActivity"></activity>
     </application>
 
 </manifest>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:id="@+id/card"
+    android:elevation="4dp"
+    android:background="@color/colorPrimaryDark">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+        <TextView
+            android:id="@+id/reason_name_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Accident"
+            android:textSize="30sp"
+            android:textStyle="bold"/>
+        <TextView
+            android:layout_below="@+id/reason_name_textview"
+            android:id="@+id/at"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="at"/>
+        <TextView
+            android:textStyle="bold"
+            android:textSize="30sp"
+            android:layout_below="@+id/at"
+            android:id="@+id/place_name_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Guntur"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="time"
+            android:id="@+id/time_traffic"
+            android:layout_below="@+id/place_name_textview"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="13dp"
+            android:src="@drawable/rightarrow"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="13dp" />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
